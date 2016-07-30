@@ -72,3 +72,68 @@ MyLogger.log("Hello World")
 <br>
 
 ## Single Table Inheritance
+Single Table Inheritance is usefull when you have a few classes that have similiar attributes, but different functionality. You can use one table to store all records, but use multiple classes to define varying functionality within methods. 
+
+An example would be to create one Employees table:
+
+```ruby
+create_table 'employees' do |t|
+  t.integer 'employee_id'
+  t.string 'name'
+  t.string  'type'
+  t.string 'location'
+  t.integer 'salary'
+end
+```
+
+And four classes:
+
+```ruby
+# app/models/employee.rb
+class Employee < ActiveRecord::Base
+end
+
+# app/models/executive.rb
+class Executive < Emmployee
+
+	def fund_raise
+		puts "I'll give you 10% for $2,000,000"
+	end
+end
+
+# app/models/maneger.rb
+class Manager < Employee
+	def ask_for_overtime(contributor)
+		puts "Yeah...#{contributor.name}...I'm gonna need you to come in on Saturday."
+	end
+end
+
+# app/models/contributor.rb
+class Contributor < Employee
+	def do_word
+		puts "I just stare at my desk, but it looks like I'm working."
+	end
+end
+```
+
+In this way we can store all the records for employees in one table, but also have different funtionality for different types of employees. 
+
+To create and use objects we can do the following:
+
+```ruby
+bill = Manager.new(name: "Bill Lumbergh", employee_id: 101, location: "Headquarters", salary: 100000)
+
+peter = Contributor.new(name: "Peter Gibbons", employee_id: 124, location: "Boise", salary: 50000)
+
+bill.ask_for_overtime(peter)
+#> Yeah...Peter Gibbons...I'm gonna need you to come in on Saturday.
+
+peter.do_work
+#> I just stare at my desk, but it looks like I'm working.
+
+```
+
+
+
+
+
