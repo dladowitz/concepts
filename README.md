@@ -142,10 +142,10 @@ peter.do_work
 <br>
 
 ## Polymorphism
-Polymorphism is useful when you have one class that can `belongs_to` multiple classes. 
+Polymorphism is useful when you have one class that can belong to (`belongs_to`) multiple classes. 
 
 For example say you are Facebook and you want to create a class called "Pages". 
-A page can belong to either a single User or a Business. 
+A page can belong to either a User object or a Business object. 
 
 Instead of the Pages class having multiple foriegn keys like `user_id` and `business_id` we use polymorphism like this:
 
@@ -188,7 +188,14 @@ end
 ```
 
 In this was we can instantiate a new page for both a User or a Business with:
-`User.first.build_page` or `Business.first.build_page`
+
+```ruby
+user = User.first
+user.build_page 
+
+business = Business.first
+business.build_page 
+```
 
 ## Polymorphism Vs Single Table Inheritance
 A polymorphic association is used when a class can belong to more than one other class. In this case each of the three or more classes have their own DB tables, their own attributes (which may not overlap) and thier own ruby class definition. None of the classes inherit from the other classes. <br>
