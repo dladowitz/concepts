@@ -95,7 +95,6 @@ end
 
 # app/models/executive.rb
 class Executive < Emmployee
-
 	def fund_raise
 		puts "I'll give you 10% for $2,000,000"
 	end
@@ -132,6 +131,67 @@ peter.do_work
 #> I just stare at my desk, but it looks like I'm working.
 
 ```
+
+<br>
+
+## Polymorphism
+Polymorphism is useful when you have one class that can `belongs_to` multiple classes. 
+
+For example say you are Facebook and you want to create a class called "Pages". 
+A page can belong to either a single User or a Business. 
+
+Instead of the Pages class having multiple foriegn keys like `user_id` and `business_id` we use polymorphism like this:
+
+```ruby
+# migration file
+create_table 'pages' do |t|
+  t.integer 'pageable_id'
+  t.string 'pageable_type'
+  t.string 'primary_photo_url'
+  t.boolean 'private'
+end
+
+# /app/models/page.rb
+class Page < ActiveRecord::Base
+  belongs_to :pageable, polymorphic: true
+end
+```
+
+Our User and Business classes both get their own db tables (unlike STI) and class definitions
+
+```ruby
+create_table 'users' do |t|
+  t.integer 'name'
+end
+
+# /app/models/user.rb
+class User < ActiveRecord::Base
+  has_one :page, as: :pageable
+end
+
+create_table 'businesses' do |t|
+  t.integer 'name'
+end
+
+# /app/models/business.rb
+class Business < ActiveRecord::Base
+  has_one :page, as: :pageable
+end
+
+```
+
+In this was we can instantiate a new page for both a User or a Business with:
+`User.first.build_page` or `Business.first.build_page`
+
+## Polymorphism Vs Single Table Inheritance
+A polymorphic association is used when a class can belong to more than one other class. In this case each of the three or more classes have their own DB tables, their own attributes (which may not overlap) and thier own ruby class definition. None of the classes inherit from the other classes. <br>
+**Ex: A Comment can belong to an BlogPost or a Video.**
+
+Single Table Inheritance is used when multiple classes will have similiar attributes and you want them all to store records in one database table. At the same time you want them to have different methods or functionality. 
+Here classes inherit from the superclass which is the only class that has a matching DB table. <br>
+**EX: A Cat and Dog class can inherit from an Animal class. All classes store records in the Animals table**
+
+
 
 
 
