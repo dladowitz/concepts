@@ -2,7 +2,7 @@
 
 ## Singleton
 
-Singletons are used when you need to limit a class to only intantiating one instance of itself that can be used throughout an application. 
+Singletons are used when you need to limit a class to only instantiating one instance of itself that can be used throughout an application. 
 
 Typical usages are for logging, connecting to a database, or working with a third party system. 
 
@@ -39,9 +39,11 @@ MyLogger.instance.log("Hello World")
 class MyLogger
   def self.log(message)
     @@mylog ||=  File.open("my_log.txt", "a")
-    @mylog << "\n#{message}"
+    @@mylog << "\n#{message}"
     puts "Logging #{message}"
   end
+  
+  private_class_method :new
 end
 ```
 
@@ -58,7 +60,7 @@ MyLogger.log("Hello World")
 module MyLogger
   def self.log(message)
     @@mylog ||=  File.open("my_log.txt", "a")
-    @mylog << "\n#{message}"
+    @@mylog << "\n#{message}"
     puts "Logging #{message}"
   end
 end
