@@ -192,6 +192,20 @@ Here classes inherit from the superclass which is the only class that has a matc
 **EX: A Cat and Dog class can inherit from an Animal class. All classes store records in the Animals table**
 
 
+## Modules Vs Classes
+- A class is a way to create copies of an object and give them all different states. 
+- A Module is a way to share methods between classes. 
+- Modules cannot be instantiated and updated. So they have no *state* while classes do. An instance of a class can have it's instance variables changed over time. 
+- Both Modules and Classes can have constants
+- Modules can have both Module Methods and Instnace methods. 
+- A Modules Instance methods can only be called if the module is  included (mixedin) to a class.
+
+- Modules cannot be saved to a database so they will not persist (though since they cannot change state, their is really nothing to persist). 
+
+
+
+
+
 
 
 
