@@ -87,14 +87,19 @@ create_table 'employees' do |t|
   t.integer 'salary'
 end
 ```
+Notice the attribute `type`, that will be set to one of the subclasses below.
 
-And four classes:
+And one matching class:
 
 ```ruby
 # app/models/employee.rb
 class Employee < ActiveRecord::Base
 end
+```
 
+Plus three subclasses without their own DB table:
+
+```ruby
 # app/models/executive.rb
 class Executive < Emmployee
 	def fund_raise
@@ -111,7 +116,7 @@ end
 
 # app/models/contributor.rb
 class Contributor < Employee
-	def do_word
+	def do_work
 		puts "I just stare at my desk, but it looks like I'm working."
 	end
 end
